@@ -7,4 +7,3 @@ from .models import UsersModel
 def create_view (request):
     context = {}
     form = UsersModel(request.POST or None)
-    if form.is_valid 
