@@ -1,18 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_list_or_404
 from django.http import HttpResponse, JsonResponse
-from .models import Users
+from .models import UsersModel
 # Create your views here.
 #HTML
 
-def index (request):
-    return HttpResponse("<h1>Index</h1>")
-
-def hello (request, username):
-    return HttpResponse("<h1>Hello %s</h1>"  %username)
-
-def about (request):
-    return HttpResponse("about")
-
-def get_users (request):
-    users = Users.objects.all() 
-    return JsonResponse(users)
+def create_view (request):
+    context = {}
+    form = UsersModel(request.POST or None)
+    if form.is_valid 
