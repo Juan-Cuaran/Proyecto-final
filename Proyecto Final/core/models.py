@@ -5,7 +5,7 @@ from django.db import models
 
 class UsersModel (models.Model):
     Name = models.CharField(max_length=100)
-    id_users = models.CharField(max_length=10, unique=True)
+    UsersID = models.CharField(max_length=10, unique=True)
     Password = models.CharField(max_length=10)
 
 
