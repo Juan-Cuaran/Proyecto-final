@@ -9,7 +9,6 @@
         <div class="header">
             <h1>Sistema de Control de Acceso</h1>
         </div>
-
         {% if user_name %}
             <div>
                 <p>Bienvenido, <strong>{{ user_name }}</strong></p>
@@ -30,7 +29,7 @@
                 <input type="hidden" name="action" value="login">
                 <label>UsersID: <input type="text" name="UsersID" required></label><br>
                 <label>Password: <input type="password" name="Password" required></label><br>
-                <button type="submit">Entrar</button>
+                <button type="submit">Iniciar Sesion</button>
             </form>
         {% endif %}
     </div>

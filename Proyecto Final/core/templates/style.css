@@ -10,8 +10,10 @@
 h1 {
     font-weight: 700;
     text-align: center;
-    color: black;
+    color: #1e3a8a;
     margin-bottom: 10px;   
+    letter-spacing: -0.5px;
+    font-family: "Segoe UI",sans-serif
 }
 
 header {
@@ -21,4 +23,11 @@ header {
     font-weight: 600;
     padding: 10 px 20 px;
     text-align: center;
+}
+
+body{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    background-color: #F7F9FB;
 }
