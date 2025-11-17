@@ -1,5 +1,4 @@
 <html>
-
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css">
@@ -9,27 +8,39 @@
         <div class="header">
             <h1>Sistema de Control de Acceso</h1>
         </div>
+
         {% if user_name %}
             <div>
                 <p>Bienvenido, <strong>{{ user_name }}</strong></p>
                 <p>Rol: <strong>{{ user_role }}</strong></p>
+
                 <form method="post" style="display:inline">
                     {% csrf_token %}
                     <input type="hidden" name="action" value="logout">
                     <button type="submit">Cerrar sesión</button>
                 </form>
             </div>
+
         {% else %}
             <h2>Iniciar Sesión</h2>
+
             {% if login_error %}
                 <p style="color:red">{{ login_error }}</p>
             {% endif %}
+
             <form method="post">
                 {% csrf_token %}
                 <input type="hidden" name="action" value="login">
-                <label>UsersID: <input type="text" name="UsersID" required></label><br>
-                <label>Password: <input type="password" name="Password" required></label><br>
-                <button type="submit">Iniciar Sesion</button>
+
+                <label>UsersID: 
+                    <input type="text" name="UsersID" required>
+                </label><br>
+
+                <label>Password: 
+                    <input type="password" name="Password" required>
+                </label><br>
+
+                <button type="submit">Iniciar Sesión</button>
             </form>
         {% endif %}
     </div>
