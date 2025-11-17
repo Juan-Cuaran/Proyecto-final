@@ -3,12 +3,18 @@ from django.http import HttpResponseRedirect, HttpRequest
 from django.contrib import messages
 from .models import UsersModel
 from .forms import UserForms
+import time
 # Create your views here.
 
 def index(request):
 
     context = {}
     fallos = 0
+
+    if request.session.get('user_pk'):
+        return HttpResponseRedirect('/dashboard/')
+    
+    
     if request.method == 'POST' and request.POST.get('action') == 'login':
         uid = request.POST.get('UsersID', '').strip()
         pwd = request.POST.get('Password', '').strip()
@@ -18,14 +24,21 @@ def index(request):
             request.session['user_pk'] = user.pk
             request.session['user_name'] = user.Name
             request.session['user_role'] = user.Role
-            return HttpResponseRedirect('/')    
-        else:
-            fallos += 1
-            if fallos >= 3:
-                context['login_error'] = 'Acceso invalido, inténtelo de nuevo en 5 minutos'
-            context['login_error'] = 'Contraseña/ID inválidas.'
 
-    if request.method == 'POST' and request.POST.get('action') == 'logout':
+            request.session['fallos'] = 0
+            request.session['Lockout_Time'] = 0
+            return HttpResponseRedirect('dashboard/')    
+        else:
+            fallos = request.session.get('fallos', 0) + 1
+            request.session['fallos'] = fallos
+            if fallos >= 3:
+                request.session['Lockout_Time'] = time.time() + 300 
+                context['login_error'] = 'Acceso invalido, inténtelo de nuevo en 5 minutos'
+            else:
+                intentos_restantes = 3 - fallos
+                context['login_error'] = f'Contraseña/ID inválidas. Intenos restantes: {intentos_restantes}'
+
+    elif request.method == 'POST' and request.POST.get('action') == 'logout':
         for k in ('user_pk', 'user_name', 'user_role'):
             request.session.pop(k, None)
         return HttpResponseRedirect('/')
@@ -36,14 +49,6 @@ def index(request):
 
 def hello(request, username):
     return render(request, 'index.html', {'greet': username})
-
-def menu(request):
-
-    context = {}
-    context['user_name'] = request.session.get('user_name')
-    context['user_role'] = request.session.get('user_role')
-    return render(request, 'menu.html', context)
-
 
 def dashboard(request):
 

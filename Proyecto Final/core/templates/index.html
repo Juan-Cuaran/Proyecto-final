@@ -11,15 +11,19 @@
         </div>
 
         {% if user_name %}
-            <div>
+            <div style="text-align:center;">
                 <p>Bienvenido, <strong>{{ user_name }}</strong></p>
                 <p>Rol: <strong>{{ user_role }}</strong></p>
 
-                <form method="post" style="display:inline">
-                    {% csrf_token %}
-                    <input type="hidden" name="action" value="logout">
-                    <button type="submit">Cerrar sesión</button>
-                </form>
+                <div style="display:flex; gap:10px; justify-content:center; align-items:center; margin-top:12px;">
+                    <a class="btn" href="/menu/">Ir al Dashboard</a>
+
+                    <form method="post" style="display:inline">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="logout">
+                        <button type="submit">Cerrar sesión</button>
+                    </form>
+                </div>
             </div>
 
         {% else %}
