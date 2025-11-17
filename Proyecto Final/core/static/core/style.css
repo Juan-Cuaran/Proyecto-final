@@ -1,0 +1,66 @@
+*{box-sizing: border-box}
+
+body{
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #F7F9FB;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    background: transparent;
+    padding: 50px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    font-weight: 1000;
+    text-align: center;
+    color: #1e3a8a;
+    margin-bottom: 10px;   
+    letter-spacing: -0.5px;
+}
+
+.header {
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+    color: #1e3a8a;
+    font-weight: 600;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+form { 
+    width: 100%; max-width: 420px; 
+    background: transparent; 
+    padding:20px;
+
+}
+
+label { 
+    display:block; 
+    margin: 8px 0; 
+}
+
+input[type="text"], input[type="password"]{ width:100%; padding:8px; border-radius:6px; border:1px solid #d1d5db }
+
+button{ 
+    padding:8px 14px; 
+    border-radius:6px; 
+    background:#3b82f6; 
+    color:#fff; 
+    border:none; 
+    cursor:pointer; 
+    align-items: center;
+    margin: 20px auto;
+    display: block;
+}
