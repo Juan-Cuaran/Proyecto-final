@@ -22,5 +22,6 @@ from core import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index),
+    path('menu/', views.menu, name='menu'),
     path('hello/<str:username>', views.hello)
 ]

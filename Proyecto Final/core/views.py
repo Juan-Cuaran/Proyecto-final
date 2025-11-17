@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpRequest
+from django.contrib import messages
 from .models import UsersModel
 from .forms import UserForms
 # Create your views here.
@@ -17,7 +18,7 @@ def index(request):
             request.session['user_pk'] = user.pk
             request.session['user_name'] = user.Name
             request.session['user_role'] = user.Role
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/')    
         else:
             fallos += 1
             if fallos >= 3:
@@ -35,6 +36,37 @@ def index(request):
 
 def hello(request, username):
     return render(request, 'index.html', {'greet': username})
+
+def menu(request):
+    """Menu principal: muestra opciones según el rol guardado en session.
+    Usa `user_name` y `user_role` desde la sesión (rellenados en `index`).
+    """
+    context = {}
+    context['user_name'] = request.session.get('user_name')
+    context['user_role'] = request.session.get('user_role')
+    return render(request, 'menu.html', context)
+
+
+def dashboard(request):
+
+    context = {}
+    userid = request.POST.get('UsersID', '').strip()
+    userrole = request.POST.get('Role', '').strip()
+
+    if not userid or not userrole:
+        messages.error(request, 'Por favor, complete todos los campos obligatorios.')
+        return render(request, 'index.html', {})
+    
+    elif userrole == 'admin':
+        return HttpResponseRedirect('dashboardadmin/')
+    
+    elif userrole == 'vigilante':
+        return HttpResponseRedirect('/dashboardvigilante/')
+    
+    context['user_name'] = request.session.get('user_name')
+    context['user_role'] = request.session.get('user_role')
+
+    return render(request, 'dashboard.html', context)
 
 def create_view (request):
     context = {}
