@@ -38,9 +38,7 @@ def hello(request, username):
     return render(request, 'index.html', {'greet': username})
 
 def menu(request):
-    """Menu principal: muestra opciones según el rol guardado en session.
-    Usa `user_name` y `user_role` desde la sesión (rellenados en `index`).
-    """
+
     context = {}
     context['user_name'] = request.session.get('user_name')
     context['user_role'] = request.session.get('user_role')

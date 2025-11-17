@@ -17,19 +17,19 @@
             <p>Rol: <strong>{{ user_role }}</strong></p>
 
             <div style="width:100%; max-width:600px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:16px;">
-                <!-- Opciones comunes -->
-                <a class="btn" href="/">Inicio</a>
-                <a class="btn" href="/list/">Ver Usuarios</a>
-                <a class="btn" href="/create/">Crear Usuario</a>
-
                 {% if user_role == 'admin' %}
                     <!-- Opciones solo admin -->
                     <a class="btn" href="/admin/">Administrar</a>
                     <a class="btn" href="/accesscontrol/">Control de Acceso</a>
+                    <a class="btn" href="/create/">Crear Usuario</a>
+                    <a class="btn" href="/list/">Ver Usuarios</a>
+                    <a class="btn" href="/update/">Actualizar Usuario</a>
+                    <a class="btn" href="/delete/">Eliminar Usuario</a>
                 {% elif user_role == 'vigilante' %}
                     <!-- Opciones vigilante -->
                     <a class="btn" href="/visitors/">Visitantes</a>
-                    <a class="btn" href="/reports/">Reportes</a>
+                    <a class="btn" href="/creports/">Consultar Reportes</a>
+                    <a class="btn" href="greports/">Gnerar Reportes</a>
                 {% endif %}
 
                 <form method="post" action="/" style="display:inline">
