@@ -27,7 +27,7 @@ function toggleSubmenu(id) {
 
 		<div class="menu-container">
             <ul class="menu-list">
-            <li><a class="btn" href="/">Inicio</a></li>
+            <li><a class="btn submenu-toggle" href="/">Inicio</a></li>
 			{% if user_role == 'admin' %}
         		<li>
                     <a class="btn submenu-toggle" href="javascript:void(0);" onclick="toggleSubmenu('submenu-users')">Administrar Usuarios</a>
@@ -45,8 +45,8 @@ function toggleSubmenu(id) {
                             <li><a class="btn" href="/update_viewC.html/">Modificar Credenciales</a></li>
                         </ul>
                     </li>
-                <li><a class="btn" href="/Greports/">Generar Reportes</a></li>
-                <li><a class="btn" href="/Creports/">Consultar Reportes</a></li>
+                <li><a class="btn submenu-toggle" href="/Greports/">Generar Reportes</a></li>
+                <li><a class="btn submenu-toggle" href="/Creports/">Consultar Reportes</a></li>
                 <li><a href="btn" href="/schedules/"></a></li>
         		<li>
                     <a class="btn submenu-toggle" href="javascript:void(0);" onclick="toggleSubmenu('submenu-schedules')">Administrar Horarios de Acceso</a>
@@ -64,9 +64,9 @@ function toggleSubmenu(id) {
                             <li><a class="btn" href="{% url 'restrict_visitor' %}">Restringir Visitantes</a></li>
                         </ul>
                     </li>
-				<li><a class="btn" href="/Greports/">Generar Reportes</a></li>
-                <li><a class="btn" href="/Creports/">Consultar Reportes</a></li>
-				<li><a class="btn" href="/accesscontrol/">Control de Acceso</a></li>
+				<li><a class="btn submenu-toggle" href="/Greports/">Generar Reportes</a></li>
+                <li><a class="btn submenu-toggle" href="/Creports/">Consultar Reportes</a></li>
+				<li><a class="btn submenu-toggle" href="/accesscontrol/">Control de Acceso</a></li>
 
 			{% endif %}
 

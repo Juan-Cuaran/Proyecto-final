@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from core import views
 from visitors import views as visitors_views
+from credentials import views as credentials_views
 
 
 urlpatterns = [
@@ -26,5 +27,6 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('visitors/create/', visitors_views.create_visitor, name='create_visitor'),
     path('visitors/list/', visitors_views.list_visitor, name='list_visitor'),
-        path('visitors/restrict/', visitors_views.restrict_visitor, name='restrict_visitor'),
+    path('visitors/restrict/', visitors_views.restrict_visitor, name='restrict_visitor'),
+    path('credentials/create/', credentials_views.Asign_credential, name='create_credential'),
     ]

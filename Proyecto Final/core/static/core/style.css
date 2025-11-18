@@ -69,7 +69,7 @@ button{
 .btn:hover{ opacity:0.95 }
 
 /* Ensure menu buttons share the same size and are centered inside the menu container */
-.menu-list { display: flex; flex-direction: column; align-items: center; }
+.menu-list { display: flex; flex-direction: column; align-items: stretch; width: 100%; max-width: 300px; margin: 0 auto; }
 .menu-list li { width: 100%; }
 .menu-list .btn, .submenu-list .btn {
     display: block;
@@ -99,6 +99,7 @@ button{
     padding: 20px;
     border: 1px transparent solid;
     border-radius: 8px;
+    text-align: center;
 }
 
 .menu-list {
@@ -106,6 +107,7 @@ button{
     padding: 0;
     margin: 0;
     align-items: center;
+    text-align: center;
 }
 
 .menu-list li {
@@ -119,6 +121,7 @@ button{
     padding: 20px;
     border: 1px transparent solid;
     border-radius: 8px;
+    text-align: center;
 }
 
 .submenu-list {
@@ -136,7 +139,7 @@ button{
 .submenu-toggle {
     cursor: pointer;
     width: 100%;
-    text-align: left;
+    text-align: center;
     padding: 8px 12px;
     display: block;
 }

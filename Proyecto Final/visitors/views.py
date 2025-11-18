@@ -1,4 +1,5 @@
-from django.shortcuts import render,get_list_or_404
+from django.shortcuts import render,get_list_or_404, redirect
+from django.urls import reverse
 from .models import Visitor
 from .form import VisitorForm
 
@@ -9,8 +10,9 @@ def create_visitor(request):
     context = {}
     form = VisitorForm(request.POST or None)
     if form.is_valid():
-        form.save()
+        visitor = form.save()
         context['message'] = 'Visitante registrado exitosamente.'
+        return redirect(f"{reverse('create_credential')}?visitor_id={visitor.id}")
     context['form'] = form
     return render(request, 'create_visitor.html', context)
 
