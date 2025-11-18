@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{% static 'core/style.css' %}">
     <title>Eventos de Acceso</title>
+    <style>
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f4f4f4; }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -26,7 +31,13 @@
                 <tr>
                     <td>{{ event.id }}</td>
                     <td>{{ event.access_point.name }}</td>
-                    <td>{{ event.credential.code }}</td>
+                    <td>
+                        {% if event.credential %}
+                            {{ event.credential.credential_code }}
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
                     <td>{{ event.get_status_display }}</td>
                     <td>{{ event.timestamp }}</td>
                 </tr>
