@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="{% static 'core/style.css' %}">
+	<title>Dashboard</title>
+	<style>
+		.subheading{ margin-top:8px; color:#374151 }
+	</style>
+</head>
+
+<script>
+function toggleSubmenu(id) {
+    const submenu = document.getElementById(id);
+    submenu.classList.toggle("open");
+}
+</script>
+<body>
+	<div class="container">
+		<div class="header">
+			<h1>Menu Principal</h1>
+		</div>
+
+		<p>Bienvenido, <strong>{{ user_name }}</strong></p>
+		<p class="subheading">Rol: <strong>{{ user_role }}</strong></p>
+
+		<div class="menu-container">
+            <ul class="menu-list">
+            <li><a class="btn" href="/">Inicio</a></li>
+			{% if user_role == 'admin' %}
+        		<li>
+                    <a class="btn submenu-toggle" href="javascript:void(0);" onclick="toggleSubmenu('submenu-users')">Administrar Usuarios</a>
+                        <ul id="submenu-users" class="submenu-list">
+                            <li><a class="btn" href="/create_view.html/">Añadir Usuario</a></li>
+                            <li><a class="btn" href="/list_view.html/">Consultar Usuario</a></li>
+                            <li><a class="btn" href="/update_view.html/">Modificar Usuario</a></li>
+                            <li><a class="btn" href="/delete_view.html/">Eliminar Usuario</a></li>
+                        </ul>
+                    </li>
+         		<li>
+                    <a class="btn submenu-toggle" href="javascript:void(0);" onclick="toggleSubmenu('submenu-credentials')">Administrar Credenciales</a>
+                        <ul id="submenu-credentials" class="submenu-list">
+                            <li><a class="btn" href="/create_viewC.html/">Asignar Credenciales</a></li>
+                            <li><a class="btn" href="/update_viewC.html/">Modificar Credenciales</a></li>
+                        </ul>
+                    </li>
+                <li><a class="btn" href="/Greports/">Generar Reportes</a></li>
+                <li><a class="btn" href="/Creports/">Consultar Reportes</a></li>
+                <li><a href="btn" href="/schedules/"></a></li>
+        		<li>
+                    <a class="btn submenu-toggle" href="javascript:void(0);" onclick="toggleSubmenu('submenu-schedules')">Administrar Horarios de Acceso</a>
+                        <ul id="submenu-schedules" class="submenu-list">
+                            <li><a class="btn" href="/create_view.html/">Añadir Horarios</a></li>
+                            <li><a class="btn" href="/update_view.html/">Modificar Horarios</a></li>
+                        </ul>
+                    </li>
+			{% elif user_role == 'vigilante' %}
+				<li><a class="btn" href="/visitors/">Administrar Visitantes</a></li>
+				<li><a class="btn" href="/Greports/">Generar Reportes</a></li>
+                <li><a class="btn" href="/Creports/">Consultar Reportes</a></li>
+				<li><a class="btn" href="/accesscontrol/">Control de Acceso</a></li>
+
+			{% endif %}
+
+            </ul>
+			<form method="post" action="/" style="display:inline">
+				{% csrf_token %}
+				<input type="hidden" name="action" value="logout">
+				<button class="btn" type="submit">Cerrar sesión</button>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

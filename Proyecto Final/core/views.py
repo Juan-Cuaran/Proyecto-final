@@ -10,11 +10,13 @@ def index(request):
 
     context = {}
     fallos = 0
+    if request.method == 'POST' and request.POST.get('action') == 'logout':
+        for k in ('user_pk', 'user_name', 'user_role'):
+            request.session.pop(k, None)
+        request.session.pop('fallos', None)
+        request.session.pop('Lockout_Time', None)
+        return HttpResponseRedirect('/')
 
-    if request.session.get('user_pk'):
-        return HttpResponseRedirect('/dashboard/')
-    
-    
     if request.method == 'POST' and request.POST.get('action') == 'login':
         uid = request.POST.get('UsersID', '').strip()
         pwd = request.POST.get('Password', '').strip()
@@ -24,10 +26,9 @@ def index(request):
             request.session['user_pk'] = user.pk
             request.session['user_name'] = user.Name
             request.session['user_role'] = user.Role
-
             request.session['fallos'] = 0
             request.session['Lockout_Time'] = 0
-            return HttpResponseRedirect('dashboard/')    
+            return HttpResponseRedirect('/dashboard/')
         else:
             fallos = request.session.get('fallos', 0) + 1
             request.session['fallos'] = fallos
@@ -38,10 +39,8 @@ def index(request):
                 intentos_restantes = 3 - fallos
                 context['login_error'] = f'Contraseña/ID inválidas. Intenos restantes: {intentos_restantes}'
 
-    elif request.method == 'POST' and request.POST.get('action') == 'logout':
-        for k in ('user_pk', 'user_name', 'user_role'):
-            request.session.pop(k, None)
-        return HttpResponseRedirect('/')
+    if request.session.get('user_pk'):
+        return HttpResponseRedirect('/dashboard/')
 
     context['user_name'] = request.session.get('user_name')
     context['user_role'] = request.session.get('user_role')
@@ -53,21 +52,11 @@ def hello(request, username):
 def dashboard(request):
 
     context = {}
-    userid = request.POST.get('UsersID', '').strip()
-    userrole = request.POST.get('Role', '').strip()
-
-    if not userid or not userrole:
-        messages.error(request, 'Por favor, complete todos los campos obligatorios.')
-        return render(request, 'index.html', {})
-    
-    elif userrole == 'admin':
-        return HttpResponseRedirect('dashboardadmin/')
-    
-    elif userrole == 'vigilante':
-        return HttpResponseRedirect('/dashboardvigilante/')
-    
     context['user_name'] = request.session.get('user_name')
     context['user_role'] = request.session.get('user_role')
+
+    if not context['user_name']:
+        return HttpResponseRedirect('/')
 
     return render(request, 'dashboard.html', context)
 

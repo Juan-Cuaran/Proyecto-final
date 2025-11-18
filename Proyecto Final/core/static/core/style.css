@@ -66,3 +66,61 @@ button{
 }
 .btn{ display:inline-block; padding:10px 14px; background:#1e3a8a; color:#fff; border-radius:8px; text-decoration:none; }
 .btn:hover{ opacity:0.95 }
+
+.menu-container {
+    width: 100%;
+    max-width: 300px;
+    margin-top: 18px;
+    padding: 20px;
+    border: 1px transparent solid;
+    border-radius: 8px;
+}
+
+.menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+}
+
+.menu-list li {
+    margin-bottom: 12px; 
+}
+
+.submenu-container {
+    width: 100%;
+    max-width: 300px;
+    margin-top: 18px;
+    padding: 20px;
+    border: 1px transparent solid;
+    border-radius: 8px;
+}
+
+.submenu-list {
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin-top: 8px;
+    
+}
+
+.submenu-list.open {
+    display: block;
+}
+
+.submenu-toggle {
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    padding: 8px 12px;
+    display: block;
+}
+
+.submenu-list .btn {
+    width: 100%;
+    text-align: center;
+    display: block;
+    background: #475569;
+}
+
+
