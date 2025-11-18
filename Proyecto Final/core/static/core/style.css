@@ -123,4 +123,6 @@ button{
     background: #475569;
 }
 
-
+.logout-button {
+    background-color: #ef4444;
+}

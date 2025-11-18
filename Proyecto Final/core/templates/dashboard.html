@@ -56,7 +56,14 @@ function toggleSubmenu(id) {
                         </ul>
                     </li>
 			{% elif user_role == 'vigilante' %}
-				<li><a class="btn" href="/visitors/">Administrar Visitantes</a></li>
+        		<li>
+                    <a class="btn submenu-toggle" href="javascript:void(0);" onclick="toggleSubmenu('submenu-visitors')">Administrar Visitantes</a>
+                        <ul id="submenu-visitors" class="submenu-list">
+                            <li><a class="btn" href="/create_view.html/">Registrar Visitantes</a></li>
+                            <li><a class="btn" href="/update_view.html/">Consultar Visitantes</a></li>
+                            <li><a class="btn" href="/restrinct.html/">Restringir Visitantes</a></li>
+                        </ul>
+                    </li>
 				<li><a class="btn" href="/Greports/">Generar Reportes</a></li>
                 <li><a class="btn" href="/Creports/">Consultar Reportes</a></li>
 				<li><a class="btn" href="/accesscontrol/">Control de Acceso</a></li>
@@ -67,7 +74,7 @@ function toggleSubmenu(id) {
 			<form method="post" action="/" style="display:inline">
 				{% csrf_token %}
 				<input type="hidden" name="action" value="logout">
-				<button class="btn" type="submit">Cerrar sesión</button>
+				<button class="logout-button" type="submit">Cerrar sesión</button>
 			</form>
 		</div>
 	</div>
