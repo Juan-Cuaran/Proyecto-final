@@ -1,0 +1,43 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{% static 'core/style.css' %}">
+    <title>Registrar Evento de Acceso</title>
+    <style>
+        .form-wrapper{ width:100%; max-width:540px; display:flex; flex-direction:column; align-items:center; margin:0 auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Registrar Evento de Acceso</h1>
+        </div>
+        <div class="form-wrapper">
+            <form method="post" style="width:100%; max-width:420px;">
+                {% csrf_token %}
+                <label style="display:block; width:100%; margin-bottom:8px;">
+                    <span>Punto de Acceso</span>
+                    <input type="text" name="access_point" required style="width:100%; padding:8px; margin-top:4px;" placeholder="Ingrese el punto de acceso">
+                </label>
+                <label style="display:block; width:100%; margin-bottom:8px;">
+                    <span>Código de Credencial</span>
+                    <input type="text" name="credential_code" required style="width:100%; padding:8px; margin-top:4px;" placeholder="Ingrese el código de la credencial">
+                </label>
+                <label style="display:block; width:100%; margin-bottom:8px;">
+                    <span>Estado de Acceso</span>
+                    <select name="status" required style="width:100%; padding:8px; margin-top:4px;">
+                        <option value="ENTRY">Entrada</option>
+                        <option value="EXIT">Salida</option>
+                    </select>
+                </label>
+                <div class="button-row">
+                    <button class="btn" type="submit">Registrar Evento</button>
+                    <a class="cancel-button" href="/dashboard/">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>  
+</body>
+</html>    

@@ -1,0 +1,40 @@
+{% load static%}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'core/style.css' %}">
+    <title>Eventos de Acceso</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Lista de Eventos de Acceso</h1>
+        </div>
+        <form action="post"></form>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Punto de Acceso</th>
+                    <th>Código de Credencial</th>
+                    <th>Estado de Acceso</th>
+                    <th>Fecha y Hora</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in database %}
+                <tr>
+                    <td>{{ event.id }}</td>
+                    <td>{{ event.access_point.name }}</td>
+                    <td>{{ event.credential.code }}</td>
+                    <td>{{ event.get_status_display }}</td>
+                    <td>{{ event.timestamp }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">No hay eventos de acceso registrados.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+    </div>
+</body>

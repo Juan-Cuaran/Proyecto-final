@@ -19,6 +19,8 @@ from django.urls import path
 from core import views
 from visitors import views as visitors_views
 from credentials import views as credentials_views
+from accesscontrol import views as accesscontrol_views
+from django.views.generic.base import RedirectView
 
 
 urlpatterns = [
@@ -29,4 +31,7 @@ urlpatterns = [
     path('visitors/list/', visitors_views.list_visitor, name='list_visitor'),
     path('visitors/restrict/', visitors_views.restrict_visitor, name='restrict_visitor'),
     path('credentials/create/', credentials_views.Asign_credential, name='create_credential'),
+    # Redirect plain /accesscontrol/ to the create page for convenience
+    path('accesscontrol/', RedirectView.as_view(pattern_name='create_access_event', permanent=False)),
+    path('accesscontrol/create/', accesscontrol_views.create_access_event, name='create_access_event'),
     ]

@@ -12,7 +12,6 @@ class CredentialsForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # we don't want the user to edit the credential code or visitor here
         if 'credential_code' in self.fields:
             self.fields.pop('credential_code')
         if 'visitor' in self.fields:

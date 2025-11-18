@@ -5,7 +5,7 @@ from django.utils import timezone
 class AccessPoint(models.Model):
     name = models.CharField(max_length=80)
 
-class AccessEvent(models.Model):
+class AccessEventModels(models.Model):
 
     STATUS_ACCESS = [
         ('ENTRY', 'Entrada'),
