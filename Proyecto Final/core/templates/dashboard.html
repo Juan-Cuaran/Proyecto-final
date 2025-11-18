@@ -60,8 +60,8 @@ function toggleSubmenu(id) {
                     <a class="btn submenu-toggle" href="javascript:void(0);" onclick="toggleSubmenu('submenu-visitors')">Administrar Visitantes</a>
                         <ul id="submenu-visitors" class="submenu-list">
                             <li><a class="btn" href="{% url 'create_visitor' %}">Registrar Visitantes</a></li>
-                            <li><a class="btn" href="/update_view.html/">Consultar Visitantes</a></li>
-                            <li><a class="btn" href="/restrinct.html/">Restringir Visitantes</a></li>
+                            <li><a class="btn" href="{% url 'list_visitor' %}">Consultar Visitantes</a></li>
+                            <li><a class="btn" href="{% url 'restrict_visitor' %}">Restringir Visitantes</a></li>
                         </ul>
                     </li>
 				<li><a class="btn" href="/Greports/">Generar Reportes</a></li>

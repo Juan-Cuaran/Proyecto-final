@@ -16,25 +16,50 @@ def create_visitor(request):
 
 def list_visitor(request):
     context = {}
+    visitors = None
+    message = None
+
     selected_id = request.GET.get('id')
     if selected_id:
-        visitors = get_list_or_404(Visitor, id=selected_id)
-        context['database'] = visitors
-        return render(request, "list_view.html", context)
-    matches = None
-    message = None
+        visitors = Visitor.objects.filter(id_visitor__exact=selected_id)
+        if not visitors.exists():
+            message = 'No se encontraron visitantes con ese ID.'
+        context['visitors'] = visitors
+        context['message'] = message
+        return render(request, 'list_visitors.html', context)
+
     if request.method == 'POST':
-        buscar_por = request.POST.get('search_by')
+        search_by = request.POST.get('search_by')
         q = request.POST.get('q', '').strip()
         if not q:
             message = 'Introduzca un término de búsqueda.'
         else:
-            if buscar_por == 'id':
-                matches = Visitor.objects.filter(id__exact=q)
+            if search_by == 'id':
+                visitors = Visitor.objects.filter(id_visitor__exact=q)
             else:
-                matches = Visitor.objects.filter(name__icontains=q)
-            if not matches.exists():
-                message = 'El parametro no se encuentra registrado en el sistema.'
-    context['marches'] = matches
+                visitors = Visitor.objects.filter(name__icontains=q)
+            if not visitors.exists():
+                message = 'No se encontraron coincidencias.'
+
+    context['visitors'] = visitors
     context['message'] = message
-    return render(request, "list_visitors.html", context)
+    return render(request, 'list_visitors.html', context)
+
+def restrict_visitor(request):
+    context = {}
+    if request.method == 'POST':
+        idv = request.POST.get('id_visitor', '').strip()
+        motive = request.POST.get('motive', '').strip()
+        if not idv or not motive:
+            context['message'] = 'Ingrese ID de visitante y motivo.'
+        else:
+            try:
+                visitor = Visitor.objects.get(id_visitor=idv)
+                visitor.motive = motive
+                visitor.save()
+                context['message'] = f"Motivo guardado para visitante {visitor.name}."
+                context['visitor'] = visitor
+            except Visitor.DoesNotExist:
+                context['message'] = 'No se encontró visitante con ese ID.'
+
+    return render(request, 'restrict_visitor.html', context)

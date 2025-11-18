@@ -43,6 +43,7 @@ form {
     width: 100%; max-width: 420px; 
     background: transparent; 
     padding:20px;
+    margin: 0 auto; /* center the form horizontally inside its wrapper */
 
 }
 
@@ -141,4 +142,38 @@ select {
 select:focus {
     outline: none;
     border-color: #3b82f6;
+}
+
+.cancel-button {
+    padding:8px 14px; 
+    border-radius:6px; 
+    background:#64748b; 
+    color:#fff; 
+    border:none; 
+    cursor:pointer; 
+    align-items: center;
+    margin: 20px auto;
+    display: block;
+
+}
+
+/* Row to align action buttons horizontally (save / cancel) */
+.button-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 12px;
+}
+.button-row .cancel-button {
+    display: inline-block;
+    margin: 0 auto;
+}
+
+/* ensure the form-wrapper also centers its content (keeps existing width/size) */
+.form-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
 }

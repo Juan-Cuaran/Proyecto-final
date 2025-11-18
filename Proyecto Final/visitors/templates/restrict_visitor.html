@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es">    
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="{% static 'core/style.css' %}">
@@ -15,20 +15,19 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Lista de Visitantes Registrados</h1>
+            <h1> Restringir Visitante</h1>
         </div>
         <form method="post" style="width:100%; max-width:420px; margin:0 auto;">
             {% csrf_token %}
-            <label><input type="radio" name="search_by" value="id" checked> Buscar por ID</label>
-            <label><input type="radio" name="search_by" value="name"> Buscar por Nombre</label>
-            <input type="text" name="q" placeholder="Escriba término de búsqueda" style="width:100%; padding:8px; margin-top:8px;">
-            <div style="display:flex; justify-content:center; margin-top:8px;"><button class="btn" type="submit">Buscar</button></div>
+            <label style="display:block; margin-bottom:8px;"><span>ID Visitante</span>
+                <input type="text" name="id_visitor" style="width:100%; padding:8px; margin-top:4px;" placeholder="Documento o ID"></label>
+            <label style="display:block; margin-bottom:8px;"><span>Motivo de restricción</span>
+                <input type="text" name="motive" style="width:100%; padding:8px; margin-top:4px;" placeholder="Motivo"></label>
+            <div style="display:flex; justify-content:center; margin-top:8px;"><button class="btn" type="submit">Restringir</button></div>
         </form>
-
         {% if message %}
             <p style="color:#ef4444; text-align:center">{{ message }}</p>
-        {% endif %}
-
+        {% endif %} 
         <div class="table-wrapper">
             <table>
                 <thead>
@@ -41,8 +40,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% if visitors %}
-                    {% for visitor in visitors %}
+                    {% if visitor %}
                     <tr>
                         <td>{{ visitor.id }}</td>
                         <td>{{ visitor.name }}</td>
@@ -50,16 +48,14 @@
                         <td>{{ visitor.get_visitor_type_display }}</td>
                         <td>{{ visitor.motive }}</td>
                     </tr>
-                    {% endfor %}
                     {% else %}
                     <tr>
                         <td colspan="5">No hay visitantes para mostrar.</td>
                     </tr>
                     {% endif %}
                 </tbody>
-            </table>
+            </table>    
         </div>
-        <p style="margin-top:18px"><a class="btn" href="{% url 'dashboard' %}">Volver</a></p>
-    </div>          
-</body>
+        <p><a class="cancel-button" href="/dashboard/">Cancelar</a></p>
+    </div>
 </html>

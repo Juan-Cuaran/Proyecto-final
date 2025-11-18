@@ -26,5 +26,5 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('visitors/create/', visitors_views.create_visitor, name='create_visitor'),
     path('visitors/list/', visitors_views.list_visitor, name='list_visitor'),
-    path('hello/<str:username>', views.hello)
-]
+        path('visitors/restrict/', visitors_views.restrict_visitor, name='restrict_visitor'),
+    ]
