@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="{% static 'core/style.css' %}">
+	<title>Crear Visitante</title>
+	<style>
+		.form-wrapper{ width:100%; max-width:540px; }
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="header">
+			<h1>Registrar Visitante</h1>
+		</div>
+
+		<div class="form-wrapper">
+			{% if form %}
+				<form method="post">
+					{% csrf_token %}
+					{{ form.as_p }}
+					<button class="btn" type="submit">Guardar</button>
+				</form>
+			{% else %}
+				<form method="post">
+					{% csrf_token %}
+					<label>Nombre visitante
+						<input type="text" name="name" required>
+					</label>
+					<label>Documento
+						<input type="text" name="document" required>
+					</label>
+                    <label>Tipo de visitante
+                        <select name="visitor_type" required>
+                            <option value="TEMP">Visitante Temporal</option>
+                            <option value="PROV">Proveedor</option>
+					<label>Motivo
+						<input type="text" name="reason">
+					</label>
+					<button class="btn" type="submit">Guardar</button>
+				</form>
+			{% endif %}
+		</div>
+
+		<p style="margin-top:18px"><a class="btn" href="/dashboard/">Volver al Dashboard</a></p>
+	</div>
+</body>
+</html>

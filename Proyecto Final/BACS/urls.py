@@ -17,11 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from core import views
+from visitors import views as visitors_views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index),
     path('dashboard/', views.dashboard, name='dashboard'),
+    path('visitors/create/', visitors_views.create_visitor, name='create_visitor'),
+    path('visitors/list/', visitors_views.list_visitor, name='list_visitor'),
     path('hello/<str:username>', views.hello)
 ]
