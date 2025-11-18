@@ -17,6 +17,13 @@
         <div class="form-wrapper">
             <form method="post" style="width:100%; max-width:420px;">
                 {% csrf_token %}
+                        {% if messages %}
+                        <div class="messages">
+                            {% for message in messages %}
+                                <div class="message {{ message.tags }}">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
                 <label style="display:block; width:100%; margin-bottom:8px;">
                     <span>Punto de Acceso</span>
                     <input type="text" name="access_point" required style="width:100%; padding:8px; margin-top:4px;" placeholder="Ingrese el punto de acceso">
