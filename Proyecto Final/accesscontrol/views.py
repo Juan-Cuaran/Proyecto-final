@@ -6,48 +6,40 @@ from credentials.models import CredentialsModel
 # Create your views here.
 
 def create_access_event(request):
-    # prepare lookup for credential (accepts id or 6-digit code)
-    credential_code = request.GET.get('credential_code') or request.POST.get('credential_code')
-    credencial = None
-    if credential_code:
-        credential_code = credential_code.strip()
-        credencial = CredentialsModel.objects.filter(credential_code=credential_code).first()
-
-    # common context used for both GET and POST failure cases
-    context = {'credential': credencial}
-
+    context = {}
+    
     if request.method == 'POST':
-        form = accescontrolform(request.POST)
-        if form.is_valid():
-            access_event = form.save(commit=False)
-            if credencial:
-                access_event.credential = credencial
-            access_event.save()
-            messages.success(request, 'Evento de acceso registrado exitosamente.')
-            return redirect('list_access_events')
-
-        # fallback: template may submit free-text access_point and status
-        access_point_name = request.POST.get('access_point')
-        status = request.POST.get('status')
-        if access_point_name and status:
-            ap, _ = AccessPoint.objects.get_or_create(name=access_point_name)
-            access_event = AccessEventModels(access_point=ap, status=status)
-            if credencial:
-                access_event.credential = credencial
-            access_event.save()
-            messages.success(request, 'Evento de acceso registrado.')
-            return redirect('list_access_events')
-
-        # if we reach here, the POST failed validation and no fallback applied
-        if not credencial:
-            messages.error(request, 'No se ha encontrado la credencial digitada.')
-        context['form'] = form
-
-        return render(request, 'accesscontrol/create_access_event.html', context)
-
-    context['form'] = accescontrolform()
-    context['credential'] = credencial
-    print(credencial)
+        # Obtener los datos del formulario
+        access_point_name = request.POST.get('access_point', '').strip()
+        credential_code = request.POST.get('credential_code', '').strip()
+        status = request.POST.get('status', '')
+        
+        # Validar que todos los campos estén presentes
+        if not access_point_name or not credential_code or not status:
+            messages.error(request, 'Todos los campos son obligatorios.')
+            return render(request, 'accesscontrol/create_access_event.html', context)
+        
+        # Buscar o crear el punto de acceso
+        access_point, created = AccessPoint.objects.get_or_create(name=access_point_name)
+        
+        # Buscar la credencial
+        try:
+            credential = CredentialsModel.objects.get(credential_code=credential_code)
+        except CredentialsModel.DoesNotExist:
+            messages.error(request, f'No se encontró la credencial con código: {credential_code}')
+            return render(request, 'accesscontrol/create_access_event.html', context)
+        
+        # Crear el evento de acceso
+        access_event = AccessEventModels(
+            access_point=access_point,
+            credential=credential,
+            status=status
+        )
+        access_event.save()
+        
+        messages.success(request, 'Evento de acceso registrado exitosamente.')
+        return redirect('list_access_events')
+    
     return render(request, 'accesscontrol/create_access_event.html', context)
 
 def list_access_events(request):
