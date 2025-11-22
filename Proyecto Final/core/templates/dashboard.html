@@ -121,8 +121,8 @@
             color: #0f172a;
         }
         .subheading { margin: 0; color: var(--muted); }
-        .menu-card.stacked-list .menu-list { margin-top: 2px; }
-        .menu-card.stacked-list .menu-list li { margin: 4px 0 0 0; }
+        .menu-card.visitors-card .menu-list { margin-top: 6px; }
+        .menu-card.visitors-card .menu-list li { margin: 4px 0 0 0; }
         .menu-list, .submenu-list { list-style: none; padding: 0; margin: 10px 0 0 0; }
         .menu-list li, .submenu-list li { margin: 8px 0; }
         .menu-list .btn, .submenu-list .btn, .submenu-toggle {
@@ -206,13 +206,11 @@ function toggleSubmenu(id) {
                     </article>
 
                     {% if user_role == 'admin' %}
-                    <article class="menu-card stacked-list">
+                    <article class="menu-card">
                         <div class="menu-card-header">
                             <h4>Usuarios</h4>
+                            <button class="btn submenu-toggle" type="button" onclick="toggleSubmenu('submenu-users')">Ver opciones</button>
                         </div>
-                        <ul class="menu-list">
-                            <li><button class="btn submenu-toggle" type="button" onclick="toggleSubmenu('submenu-users')">Ver opciones</button></li>
-                        </ul>
                         <ul id="submenu-users" class="submenu-list">
                             <li><a class="btn" href="/create_view.html/">Anadir Usuario</a></li>
                             <li><a class="btn" href="/list_view.html/">Consultar Usuario</a></li>
@@ -221,26 +219,22 @@ function toggleSubmenu(id) {
                         </ul>
                     </article>
 
-                    <article class="menu-card stacked-list">
+                    <article class="menu-card">
                         <div class="menu-card-header">
                             <h4>Credenciales</h4>
+                            <button class="btn submenu-toggle" type="button" onclick="toggleSubmenu('submenu-credentials')">Ver opciones</button>
                         </div>
-                        <ul class="menu-list">
-                            <li><button class="btn submenu-toggle" type="button" onclick="toggleSubmenu('submenu-credentials')">Ver opciones</button></li>
-                        </ul>
                         <ul id="submenu-credentials" class="submenu-list">
                             <li><a class="btn" href="/create_viewC.html/">Asignar Credenciales</a></li>
                             <li><a class="btn" href="/update_viewC.html/">Modificar Credenciales</a></li>
                         </ul>
                     </article>
 
-                    <article class="menu-card stacked-list">
+                    <article class="menu-card">
                         <div class="menu-card-header">
                             <h4>Horarios de acceso</h4>
+                            <button class="btn submenu-toggle" type="button" onclick="toggleSubmenu('submenu-schedules')">Ver opciones</button>
                         </div>
-                        <ul class="menu-list">
-                            <li><button class="btn submenu-toggle" type="button" onclick="toggleSubmenu('submenu-schedules')">Ver opciones</button></li>
-                        </ul>
                         <ul id="submenu-schedules" class="submenu-list">
                             <li><a class="btn" href="/create_view.html/">Anadir Horarios</a></li>
                             <li><a class="btn" href="/update_view.html/">Modificar Horarios</a></li>
@@ -257,7 +251,7 @@ function toggleSubmenu(id) {
                         </ul>
                     </article>
                     {% elif user_role == 'vigilante' %}
-                    <article class="menu-card stacked-list">
+                    <article class="menu-card visitors-card">
                         <div class="menu-card-header">
                             <h4>Visitantes</h4>
                         </div>
