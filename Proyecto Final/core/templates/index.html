@@ -1,53 +1,69 @@
 {% load static %}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'core/style.css' %}">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
+    <div class="landing">
+        <header class="hero">
+            <p class="eyebrow">Control de accesos</p>
             <h1>Sistema de Control de Acceso</h1>
-        </div>
+            <p class="lede">Gestiona roles y permisos desde un inicio de sesi&oacute;n limpio y centrado.</p>
+        </header>
 
-        {% if user_name %}
-            <div style="text-align:center;">
-                <p>Bienvenido, <strong>{{ user_name }}</strong></p>
-                <p>Rol: <strong>{{ user_role }}</strong></p>
+        <section class="card login-card">
+            {% if user_name %}
+                <div class="card-header">
+                    <div class="badge-icon">✅</div>
+                    <div>
+                        <p class="overline">Usuario activo</p>
+                        <h2>Bienvenido, {{ user_name }}</h2>
+                        <span class="role-chip">{{ user_role }}</span>
+                        <p class="hint-text">Accede al panel principal o cierra sesi&oacute;n de forma segura.</p>
+                    </div>
+                </div>
 
-                <div style="display:flex; gap:10px; justify-content:center; align-items:center; margin-top:12px;">
-                    <a class="btn" href="/menu/">Ir al Dashboard</a>
-
-                    <form method="post" style="display:inline">
+                <div class="action-row">
+                    <a class="btn primary" href="/menu/">Ir al Dashboard</a>
+                    <form method="post">
                         {% csrf_token %}
                         <input type="hidden" name="action" value="logout">
-                        <button type="submit">Cerrar sesión</button>
+                        <button class="secondary-btn" type="submit">Cerrar sesi&oacute;n</button>
                     </form>
                 </div>
-            </div>
+            {% else %}
+                <div class="card-header">
+                    <div class="badge-icon"></div>
+                    <div>
+                        <p class="overline">Acceso seguro</p>
+                        <h2>Inicia sesi&oacute;n</h2>
+                        <p class="hint-text">Ingresa tu ID y contrase&ntilde;a institucional.</p>
+                    </div>
+                </div>
 
-        {% else %}
-            <h2>Iniciar Sesión</h2>
+                {% if login_error %}
+                    <p class="alert">{{ login_error }}</p>
+                {% endif %}
 
-            {% if login_error %}
-                <p style="color:#dc2626">{{ login_error }}</p>
+                <form method="post" class="stacked-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="login">
+
+                    <label>ID
+                        <input type="text" name="UsersID" required placeholder="Ej: 1023456">
+                    </label>
+
+                    <label>Contrase&ntilde;a
+                        <input type="password" name="Password" required placeholder="••••••••">
+                    </label>
+
+                    <button type="submit">Iniciar sesi&oacute;n</button>
+                </form>
             {% endif %}
-
-            <form method="post">
-                {% csrf_token %}
-                <input type="hidden" name="action" value="login">
-
-                <label>ID: 
-                    <input type="text" name="UsersID" required>
-                </label><br>
-
-                <label>Password: 
-                    <input type="password" name="Password" required>
-                </label><br>
-
-                <button type="submit">Iniciar Sesión</button>
-            </form>
-        {% endif %}
+        </section>
     </div>
 </body>
 </html>
