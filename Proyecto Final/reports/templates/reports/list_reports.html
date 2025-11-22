@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{% static 'core/style.css' %}">
+    <title>Reportes Generados</title>
+    <style>
+        body { background: #f1f5f9; color: #0f172a; }
+        .page-shell { width:100%; max-width:1100px; margin:0 auto; padding:26px 18px 40px; }
+        .hero {
+            background: linear-gradient(120deg, rgba(30,58,138,0.14), rgba(37,99,235,0.16));
+            border: 1px solid #dbeafe;
+            border-radius: 18px;
+            padding: 18px 20px;
+            box-shadow: 0 12px 24px rgba(30,58,138,0.12);
+            margin-bottom: 20px;
+        }
+        .hero h1 { margin: 0 0 6px 0; color: #0f172a; }
+        .hero p { margin: 0; color: #475569; }
+        .card {
+            background:#fff;
+            border:1px solid #e2e8f0;
+            border-radius:14px;
+            padding:18px;
+            box-shadow:0 16px 36px rgba(15,23,42,0.12);
+            margin-bottom:18px;
+            max-width:1040px;
+            margin-left:auto;
+            margin-right:auto;
+            width:100%;
+        }
+        .actions { display:none; }
+        .btn.primary { background: linear-gradient(120deg, #1e3a8a, #2563eb); }
+        .btn.ghost { background:#64748b; color:#fff; }
+        .table-wrapper{ width:100%; overflow-x:auto; }
+        table{ width:100%; border-collapse:collapse; margin-top:12px; }
+        th, td{ border:1px solid #d1d5db; padding:10px; text-align:left; }
+        th{ background-color:#f8fafc; }
+        .param { color:#475569; }
+    </style>
+</head>
+<body>
+    <div class="page-shell">
+        <section class="hero">
+            <h1>Reportes generados</h1>
+            <p>Consulta los reportes guardados. Haz clic en un reporte para ver la tabla de accesos que contiene.</p>
+        </section>
+
+        <div class="card">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Generado</th>
+                            <th>Filtro</th>
+                            <th>Parametros</th>
+                            <th>Total eventos</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if reports %}
+                        {% for report in reports %}
+                        <tr>
+                            <td>{{ report.id }}</td>
+                            <td>{{ report.generated_at }}</td>
+                            <td>{{ report.get_filter_by_display }}</td>
+                            <td class="param">
+                                {% if report.filter_by == 'HORA' %}
+                                    Hora inicio: {% if report.hour_from %}{{ report.hour_from }}{% else %}-{% endif %} /
+                                    Hora fin: {% if report.hour_to %}{{ report.hour_to }}{% else %}-{% endif %}
+                                {% elif report.filter_by == 'ESTADO' %}
+                                    Estado: {% if report.estado_acceso == 'ENTRY' %}Entrada{% elif report.estado_acceso == 'EXIT' %}Salida{% else %}-{% endif %}
+                                {% endif %}
+                            </td>
+                            <td>{{ report.total_events }}</td>
+                            <td><a class="btn primary" href="{% url 'report_detail' report.id %}">Ver</a></td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr><td colspan="6">No hay reportes generados.</td></tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

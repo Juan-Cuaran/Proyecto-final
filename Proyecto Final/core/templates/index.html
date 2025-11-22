@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'core/style.css' %}">
+</head>
+<body>
+    <div class="landing">
+        <header class="hero">
+            <p class="eyebrow">Control de accesos</p>
+            <h1>Sistema de Control de Acceso</h1>
+            <p class="lede">Gestiona roles y permisos desde un inicio de sesi&oacute;n limpio y centrado.</p>
+        </header>
+
+        <section class="card login-card">
+            {% if user_name %}
+                <div class="card-header centered">
+                    <p class="overline">Usuario activo</p>
+                    <h2>Bienvenido, {{ user_name }}</h2>
+                    <span class="role-chip">{{ user_role }}</span>
+                    <p class="hint-text">Accede al panel principal o cierra sesi&oacute;n de forma segura.</p>
+                </div>
+
+                <div class="action-row">
+                    <a class="btn primary" href="/menu/">Ir al Dashboard</a>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="logout">
+                        <button class="secondary-btn" type="submit">Cerrar sesi&oacute;n</button>
+                    </form>
+                </div>
+            {% else %}
+                <div class="card-header centered">
+                    <h2>Inicia sesi&oacute;n</h2>
+                    <p class="hint-text">Ingresa tu ID y contrase&ntilde;a .</p>
+                </div>
+
+                {% if login_error %}
+                    <p class="alert">{{ login_error }}</p>
+                {% endif %}
+
+                <form method="post" class="stacked-form centered-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="login">
+
+                    <label>ID
+                        <input type="text" name="UsersID" required placeholder="Ej: 1023456">
+                    </label>
+
+                    <label>Contrase&ntilde;a
+                        <input type="password" name="Password" required placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull; ">
+                    </label>
+
+                    <button type="submit">Iniciar sesi&oacute;n</button>
+                </form>
+            {% endif %}
+        </section>
+    </div>
+</body>
+</html>

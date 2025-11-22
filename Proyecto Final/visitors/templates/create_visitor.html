@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{% static 'core/style.css' %}">
+    <title>Registrar Visitante</title>
+    <style>
+        body { background: #f1f5f9; color: #0f172a; }
+        .page-shell { width:100%; max-width:1100px; margin:0 auto; padding:26px 18px 40px; }
+        .hero {
+            background: linear-gradient(120deg, rgba(30,58,138,0.14), rgba(37,99,235,0.16));
+            border: 1px solid #dbeafe;
+            border-radius: 18px;
+            padding: 18px 20px;
+            box-shadow: 0 12px 24px rgba(30,58,138,0.12);
+            margin-bottom: 20px;
+        }
+        .hero h1 { margin: 0 0 6px 0; color: #0f172a; }
+        .hero p { margin: 0; color: #475569; }
+        .card {
+            background:#fff;
+            border:1px solid #e2e8f0;
+            border-radius:14px;
+            padding:18px;
+            box-shadow:0 16px 36px rgba(15,23,42,0.12);
+            max-width:520px;
+            margin:0 auto;
+        }
+        .field { display:block; margin-bottom:14px; }
+        .field label { display:block; font-weight:700; color:#0f172a; margin-bottom:6px; }
+        .field input, .field select {
+            width:100%;
+            padding:11px;
+            border:1px solid #d1d5db;
+            border-radius:10px;
+            font-size:14px;
+            box-sizing:border-box;
+            background:#fff;
+        }
+        .messages { margin-bottom:12px; }
+        .message { padding:10px; border-radius:10px; margin-bottom:8px; }
+        .message.error { background:#fef2f2; border:1px solid #fecdd3; color:#991b1b; }
+        .message.success { background:#ecfdf3; border:1px solid #bbf7d0; color:#166534; }
+        .actions { display:flex; gap:12px; justify-content:center; margin-top:14px; flex-wrap:wrap; }
+        .btn.primary { background: linear-gradient(120deg, #1e3a8a, #2563eb); }
+    </style>
+</head>
+<body>
+    <div class="page-shell">
+        <section class="hero">
+            <h1>Registrar Visitante</h1>
+            <p>Guarda los datos del visitante y su tipo antes de asignar o restringir accesos.</p>
+        </section>
+
+        <div class="card">
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="field">
+                    <label for="{{ form.name.id_for_label }}">Nombre visitante</label>
+                    {{ form.name }}
+                    {% if form.name.errors %}<div class="message error">{{ form.name.errors.0 }}</div>{% endif %}
+                </div>
+                <div class="field">
+                    <label for="{{ form.id_visitor.id_for_label }}">Documento</label>
+                    {{ form.id_visitor }}
+                    {% if form.id_visitor.errors %}<div class="message error">{{ form.id_visitor.errors.0 }}</div>{% endif %}
+                </div>
+                <div class="field">
+                    <label for="{{ form.visitor_type.id_for_label }}">Tipo de visitante</label>
+                    {{ form.visitor_type }}
+                    {% if form.visitor_type.errors %}<div class="message error">{{ form.visitor_type.errors.0 }}</div>{% endif %}
+                </div>
+                <div class="field">
+                    <label for="{{ form.motive.id_for_label }}">Motivo</label>
+                    {{ form.motive }}
+                    {% if form.motive.errors %}<div class="message error">{{ form.motive.errors.0 }}</div>{% endif %}
+                </div>
+                <div class="actions">
+                    <button class="btn primary" type="submit">Guardar</button>
+                    <a class="cancel-button" href="/dashboard/">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

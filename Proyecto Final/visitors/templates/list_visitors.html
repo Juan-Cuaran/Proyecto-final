@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{% static 'core/style.css' %}">
+    <title>Lista de Visitantes</title>
+    <style>
+        body { background: #f1f5f9; color: #0f172a; }
+        .page-shell { width:100%; max-width:1100px; margin:0 auto; padding:26px 18px 40px; }
+        .hero {
+            background: linear-gradient(120deg, rgba(30,58,138,0.14), rgba(37,99,235,0.16));
+            border: 1px solid #dbeafe;
+            border-radius: 18px;
+            padding: 18px 20px;
+            box-shadow: 0 12px 24px rgba(30,58,138,0.12);
+            margin-bottom: 20px;
+        }
+        .hero h1 { margin: 0 0 6px 0; color: #0f172a; }
+        .hero p { margin: 0; color: #475569; }
+        .card {
+            background:#fff;
+            border:1px solid #e2e8f0;
+            border-radius:14px;
+            padding:18px;
+            box-shadow:0 16px 36px rgba(15,23,42,0.12);
+            margin-bottom:18px;
+            max-width:1040px;
+            margin-left:auto;
+            margin-right:auto;
+            width:100%;
+        }
+        .form-row { display:flex; flex-direction:column; gap:10px; }
+        .form-row.inline { flex-direction:row; align-items:center; flex-wrap:wrap; gap:12px; }
+        .form-row.inline label { display:flex; align-items:center; gap:6px; }
+        .search-input {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .actions { margin-top:12px; display:flex; justify-content:center; gap:12px; flex-wrap:wrap; }
+        .btn.primary { background: linear-gradient(120deg, #1e3a8a, #2563eb); }
+        .table-wrapper{ width:100%; overflow-x:auto; }
+        table{ width:100%; border-collapse:collapse; margin-top:12px; }
+        th, td{ border:1px solid #d1d5db; padding:10px; text-align:left; }
+        th{ background-color:#f8fafc; }
+        .footer-link { text-align:center; margin-top:12px; }
+    </style>
+</head>
+<body>
+    <div class="page-shell">
+        <section class="hero">
+            <h1>Lista de Visitantes Registrados</h1>
+            <p>Consulta, busca por ID o nombre y revisa el estado de credenciales.</p>
+        </section>
+
+        <div class="card">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-row inline">
+                    <label><input type="radio" name="search_by" value="id" {% if not request.POST.search_by or request.POST.search_by == 'id' %}checked{% endif %}> Buscar por ID</label>
+                    <label><input type="radio" name="search_by" value="name" {% if request.POST.search_by == 'name' %}checked{% endif %}> Buscar por Nombre</label>
+                </div>
+                <div class="form-row">
+                    <input class="search-input" type="text" name="q" placeholder="Escriba termino de busqueda" value="{{ request.POST.q }}">
+                </div>
+                <div class="actions">
+                    <button class="btn primary" type="submit">Buscar</button>
+                    <a class="cancel-button" href="{% url 'dashboard' %}">Cancelar</a>
+                </div>
+            </form>
+
+            {% if message %}
+                <p style="color:#ef4444; text-align:center; margin-top:12px;">{{ message }}</p>
+            {% endif %}
+        </div>
+
+        <div class="card">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Documento</th>
+                            <th>Tipo de Visitante</th>
+                            <th>Motivo</th>
+                            <th>Credencial</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if visitors %}
+                        {% for visitor in visitors %}
+                        <tr>
+                            <td>{{ visitor.id }}</td>
+                            <td>{{ visitor.name }}</td>
+                            <td>{{ visitor.id_visitor }}</td>
+                            <td>{{ visitor.get_visitor_type_display }}</td>
+                            <td>{{ visitor.motive }}</td>
+                            <td>
+                                {% if visitor.credential_code %}
+                                    {{ visitor.credential_code }}
+                                {% else %}
+                                    Sin credencial
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if visitor.credential_code %}
+                                    {% if visitor.credential_active %}Activa{% else %}Inactiva{% endif %}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td colspan="7">No hay visitantes para mostrar.</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

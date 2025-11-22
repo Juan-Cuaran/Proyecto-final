@@ -1,0 +1,309 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{% static 'core/style.css' %}">
+    <title>Dashboard</title>
+    <style>
+        :root {
+            --deep-blue: #0f172a;
+            --ink: #111827;
+            --accent: #1e3a8a;
+            --accent-2: #2563eb;
+            --muted: #475569;
+            --panel: #ffffff;
+            --border: #e2e8f0;
+            --bg: #f1f5f9;
+        }
+        body {
+            background: var(--bg);
+            color: var(--ink);
+        }
+        .shell {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 28px 18px 40px;
+        }
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        .topbar .title {
+            margin: 4px 0 6px 0;
+            font-size: 32px;
+            color: var(--deep-blue);
+            letter-spacing: -0.5px;
+            text-align: left;
+            display: block;
+        }
+        .eyebrow {
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 12px;
+            color: var(--muted);
+            text-align: left;
+        }
+        .topbar .subheading { text-align: left; }
+        .role-chip {
+            padding: 10px 14px;
+            border-radius: 14px;
+            background: #e2e8f0;
+            border: 1px solid #cbd5e1;
+            color: #0f172a;
+            font-weight: 700;
+        }
+        .hero-card {
+            margin-top: 18px;
+            padding: 20px;
+            background: linear-gradient(120deg, rgba(30,58,138,0.14), rgba(37,99,235,0.16));
+            border: 1px solid #dbeafe;
+            border-radius: 18px;
+            box-shadow: 0 12px 24px rgba(30,58,138,0.12);
+            color: #0f172a;
+        }
+        .hero-card h2 {
+            margin: 0 0 8px 0;
+            color: #0f172a;
+            font-size: 22px;
+        }
+        .hero-card p {
+            margin: 0;
+            color: #1f2937;
+        }
+        .grid-panels {
+            display: grid;
+            grid-template-columns: 2fr 1.1fr;
+            gap: 18px;
+            margin-top: 18px;
+        }
+        .panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 18px 16px;
+            box-shadow: 0 18px 38px rgba(15,23,42,0.12);
+            color: var(--ink);
+        }
+        .panel h3 {
+            margin: 0 0 10px 0;
+            color: var(--deep-blue);
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+        }
+        .menu-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 12px 12px 14px 12px;
+            box-shadow: 0 10px 22px rgba(15,23,42,0.08);
+        }
+        .menu-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+        .menu-card-header.stack {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .menu-card-header h4 {
+            margin: 0;
+            color: #0f172a;
+        }
+        .subheading { margin: 0; color: var(--muted); }
+        .menu-card.stacked-list .menu-list { margin-top: 2px; }
+        .menu-card.stacked-list .menu-list li { margin: 4px 0 0 0; }
+        .menu-list, .submenu-list { list-style: none; padding: 0; margin: 10px 0 0 0; }
+        .menu-list li, .submenu-list li { margin: 8px 0; }
+        .menu-list .btn, .submenu-list .btn, .submenu-toggle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 12px 14px;
+            text-align: center;
+            font-weight: 700;
+            background: linear-gradient(120deg, var(--accent), var(--accent-2));
+            border: none;
+            color: #fff;
+            box-sizing: border-box;
+        }
+        .menu-card-header .submenu-toggle { width: auto; min-width: 130px; padding: 10px 14px; }
+        .submenu-list {
+            display: none;
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+        }
+        .submenu-list.open { display: block; }
+        .text-muted { color: var(--muted); margin: 0; }
+        .logout-button {
+            background: #ef4444;
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: none;
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        @media (max-width: 900px) {
+            .grid-panels { grid-template-columns: 1fr; }
+            .topbar { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+
+<script>
+function toggleSubmenu(id) {
+    const submenu = document.getElementById(id);
+    submenu.classList.toggle("open");
+}
+</script>
+<body>
+    <div class="shell">
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">Panel de control</p>
+                <h1 class="title">Hola, {{ user_name }}</h1>
+                <p class="subheading">Gestiona accesos, usuarios y reportes desde un solo lugar.</p>
+            </div>
+            <div class="role-chip">Rol: {{ user_role|title }}</div>
+        </header>
+
+        <section class="hero-card">
+            <h2>Todo listo para empezar</h2>
+            <p>Usa los accesos rapidos para crear eventos, consultar reportes y administrar los accesos del edificio.</p>
+        </section>
+
+        <section class="grid-panels">
+            <div class="panel">
+                <div class="menu-card-header">
+                    <h3>Acciones principales</h3>
+                    <p class="text-muted">Selecciona un modulo para ver sus opciones</p>
+                </div>
+                <div class="menu-grid">
+                    <article class="menu-card">
+                        <div class="menu-card-header">
+                            <h4>Inicio</h4>
+                        </div>
+                        <ul class="menu-list">
+                            <li><a class="btn submenu-toggle" href="/">Ir al inicio</a></li>
+                        </ul>
+                    </article>
+
+                    {% if user_role == 'admin' %}
+                    <article class="menu-card stacked-list">
+                        <div class="menu-card-header">
+                            <h4>Usuarios</h4>
+                        </div>
+                        <ul class="menu-list">
+                            <li><button class="btn submenu-toggle" type="button" onclick="toggleSubmenu('submenu-users')">Ver opciones</button></li>
+                        </ul>
+                        <ul id="submenu-users" class="submenu-list">
+                            <li><a class="btn" href="/create_view.html/">Anadir Usuario</a></li>
+                            <li><a class="btn" href="/list_view.html/">Consultar Usuario</a></li>
+                            <li><a class="btn" href="/update_view.html/">Modificar Usuario</a></li>
+                            <li><a class="btn" href="/delete_view.html/">Eliminar Usuario</a></li>
+                        </ul>
+                    </article>
+
+                    <article class="menu-card stacked-list">
+                        <div class="menu-card-header">
+                            <h4>Credenciales</h4>
+                        </div>
+                        <ul class="menu-list">
+                            <li><button class="btn submenu-toggle" type="button" onclick="toggleSubmenu('submenu-credentials')">Ver opciones</button></li>
+                        </ul>
+                        <ul id="submenu-credentials" class="submenu-list">
+                            <li><a class="btn" href="/create_viewC.html/">Asignar Credenciales</a></li>
+                            <li><a class="btn" href="/update_viewC.html/">Modificar Credenciales</a></li>
+                        </ul>
+                    </article>
+
+                    <article class="menu-card stacked-list">
+                        <div class="menu-card-header">
+                            <h4>Horarios de acceso</h4>
+                        </div>
+                        <ul class="menu-list">
+                            <li><button class="btn submenu-toggle" type="button" onclick="toggleSubmenu('submenu-schedules')">Ver opciones</button></li>
+                        </ul>
+                        <ul id="submenu-schedules" class="submenu-list">
+                            <li><a class="btn" href="/create_view.html/">Anadir Horarios</a></li>
+                            <li><a class="btn" href="/update_view.html/">Modificar Horarios</a></li>
+                        </ul>
+                    </article>
+
+                    <article class="menu-card">
+                        <div class="menu-card-header">
+                            <h4>Reportes</h4>
+                        </div>
+                        <ul class="menu-list">
+                            <li><a class="btn submenu-toggle" href="/Greports/">Generar Reportes</a></li>
+                            <li><a class="btn submenu-toggle" href="{% url 'reports_list' %}">Consultar Reportes</a></li>
+                        </ul>
+                    </article>
+                    {% elif user_role == 'vigilante' %}
+                    <article class="menu-card stacked-list">
+                        <div class="menu-card-header">
+                            <h4>Visitantes</h4>
+                        </div>
+                        <ul class="menu-list">
+                            <li><button class="btn submenu-toggle" type="button" onclick="toggleSubmenu('submenu-visitors')">Ver opciones</button></li>
+                        </ul>
+                        <ul id="submenu-visitors" class="submenu-list">
+                            <li><a class="btn" href="{% url 'create_visitor' %}">Registrar Visitantes</a></li>
+                            <li><a class="btn" href="{% url 'list_visitor' %}">Consultar Visitantes</a></li>
+                            <li><a class="btn" href="{% url 'restrict_visitor' %}">Restringir Visitantes</a></li>
+                        </ul>
+                    </article>
+
+                    <article class="menu-card">
+                        <div class="menu-card-header">
+                            <h4>Reportes</h4>
+                        </div>
+                        <ul class="menu-list">
+                            <li><a class="btn submenu-toggle" href="{% url 'create_reports' %}">Generar Reportes</a></li>
+                            <li><a class="btn submenu-toggle" href="{% url 'reports_list' %}">Consultar Reportes</a></li>
+                        </ul>
+                    </article>
+
+                    <article class="menu-card">
+                        <div class="menu-card-header">
+                            <h4>Control de acceso</h4>
+                        </div>
+                        <ul class="menu-list">
+                            <li><a class="btn submenu-toggle" href="/accesscontrol/">Registrar evento</a></li>
+                            <li><a class="btn submenu-toggle" href="{% url 'list_access_events' %}">Lista de accesos</a></li>
+                        </ul>
+                    </article>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="panel">
+                <h3>Sesion</h3>
+                <p class="text-muted">Cierra la sesion cuando termines para proteger la informacion.</p>
+                <form method="post" action="/">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="logout">
+                    <button class="logout-button" type="submit">Cerrar sesion</button>
+                </form>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

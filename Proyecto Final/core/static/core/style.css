@@ -1,0 +1,456 @@
+*{box-sizing: border-box}
+
+body{
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 32px 16px;
+    background-color: #F7F9FB;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    background: transparent;
+    padding: 50px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    font-weight: 1000;
+    text-align: center;
+    color: #1e3a8a;
+    margin-bottom: 10px;   
+    letter-spacing: -0.5px;
+}
+
+.header {
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+    color: #1e3a8a;
+    font-weight: 600;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+form { 
+    width: 100%; max-width: 420px; 
+    background: transparent; 
+    padding:20px;
+    margin: 0 auto; /* center the form horizontally inside its wrapper */
+
+}
+
+label { 
+    display:block; 
+    margin: 8px 0; 
+}
+
+input[type="text"], input[type="password"]{ width:100%; padding:8px; border-radius:6px; border:1px solid #d1d5db }
+
+button{ 
+    padding:8px 14px; 
+    border-radius:6px; 
+    background:#3b82f6; 
+    color:#fff; 
+    border:none; 
+    cursor:pointer; 
+    align-items: center;
+    margin: 20px auto;
+    display: block;
+}
+.btn{ display:inline-block; padding:10px 14px; background:#1e3a8a; color:#fff; border-radius:8px; text-decoration:none; }
+.btn:hover{ opacity:0.95 }
+
+/* Ensure menu buttons share the same size and are centered inside the menu container */
+.menu-list { display: flex; flex-direction: column; align-items: stretch; width: 100%; max-width: 300px; margin: 0 auto; }
+.menu-list li { width: 100%; }
+.menu-list .btn, .submenu-list .btn {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 16px;
+    text-align: center;
+    border-radius: 8px;
+}
+.submenu-list .btn { background: #475569; }
+
+/* Make the logout button match menu buttons when inside menu-container */
+.menu-container form { width: 100%; }
+.menu-container .logout-button {
+    display: block;
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-top: 12px;
+    box-sizing: border-box;
+}
+
+.menu-container {
+    width: 100%;
+    max-width: 300px;
+    margin-top: 18px;
+    padding: 20px;
+    border: 1px transparent solid;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+    text-align: center;
+}
+
+.menu-list li {
+    margin-bottom: 12px; 
+}
+
+.submenu-container {
+    width: 100%;
+    max-width: 300px;
+    margin-top: 18px;
+    padding: 20px;
+    border: 1px transparent solid;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.submenu-list {
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin-top: 8px;
+    
+}
+
+.submenu-list.open {
+    display: block;
+}
+
+.submenu-toggle {
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    padding: 8px 12px;
+    display: block;
+}
+
+.submenu-list .btn {
+    width: 100%;
+    text-align: center;
+    display: block;
+    background: #475569;
+}
+
+.logout-button {
+    background-color: #ef4444;
+}
+
+select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    background-color: white;
+    font-family: "Segoe UI", sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+select:focus {
+    outline: none;
+    border-color: #3b82f6;
+}
+
+.cancel-button {
+    padding:8px 14px; 
+    border-radius:6px; 
+    background:#64748b; 
+    color:#fff; 
+    border:none; 
+    cursor:pointer; 
+    align-items: center;
+    margin: 20px auto;
+    display: block;
+
+}
+
+/* Row to align action buttons horizontally (save / cancel) */
+.button-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 12px;
+}
+.button-row .cancel-button {
+    display: inline-block;
+    margin: 0 auto;
+}
+
+/* ensure the form-wrapper also centers its content (keeps existing width/size) */
+.form-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+}
+
+/* Landing page */
+.landing {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 12px 6px;
+}
+
+.eyebrow {
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    color: #1e3a8a;
+    margin: 0 0 4px 0;
+    font-weight: 700;
+}
+
+.lede {
+    margin: 8px 0 12px 0;
+    color: #475569;
+    max-width: 560px;
+}
+
+.pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.pill {
+    background: #e0ecff;
+    color: #1e3a8a;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 22px 20px 24px 20px;
+    box-shadow: 0 12px 30px rgba(30, 58, 138, 0.08);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.card-header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.card-header.centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+}
+
+.badge-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #e0ecff;
+    display: grid;
+    place-items: center;
+    font-size: 20px;
+}
+
+.overline {
+    margin: 0;
+    font-size: 13px;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+.hint-text {
+    color: #475569;
+    margin: 4px 0 10px 0;
+}
+
+.role-chip {
+    display: inline-block;
+    padding: 6px 10px;
+    background: #e0ecff;
+    color: #1e3a8a;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.stacked-form label {
+    display: block;
+    margin: 12px 0;
+    color: #1f2937;
+    font-weight: 600;
+    width: 100%;
+    text-align: left;
+}
+
+.stacked-form input[type="text"],
+.stacked-form input[type="password"] {
+    width: 100%;
+    margin-top: 6px;
+    padding: 10px;
+}
+
+.stacked-form button {
+    width: 100%;
+    margin-top: 14px;
+}
+
+.centered-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.login-card form {
+    padding: 0;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 420px;
+}
+
+.centered-form label,
+.login-card form label {
+    width: 100%;
+    max-width: 420px;
+    text-align: left;
+    align-self: flex-start;
+}
+
+.centered-form button {
+    max-width: 420px;
+}
+
+.action-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 16px 0 8px 0;
+}
+
+.secondary-btn {
+    padding: 8px 14px;
+    border-radius: 6px;
+    background: #e2e8f0;
+    color: #0f172a;
+    border: none;
+    cursor: pointer;
+}
+
+.btn.primary {
+    background: #1e3a8a;
+}
+
+.meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.meta-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.meta-label {
+    margin: 0;
+    color: #475569;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.meta-value {
+    margin: 4px 0 0 0;
+    color: #1e293b;
+    font-weight: 700;
+}
+
+.alert {
+    background: #fef2f2;
+    color: #dc2626;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #fecdd3;
+}
+
+.info-card h3 {
+    margin: 6px 0 10px 0;
+    color: #1e3a8a;
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0 0;
+    display: grid;
+    gap: 8px;
+}
+
+.feature-list li {
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 10px 12px;
+    border: 1px solid #e2e8f0;
+}
+
+@media (max-width: 640px) {
+    body {
+        padding: 22px 14px;
+    }
+    .hero {
+        text-align: left;
+    }
+    .action-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .action-row .btn,
+    .action-row .secondary-btn {
+        width: 100%;
+        text-align: center;
+    }
+}

@@ -1,0 +1,168 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes de Acceso</title>
+    <link rel="stylesheet" href="{% static 'core/style.css' %}">
+    <style>
+        body { background: #f1f5f9; color: #0f172a; }
+        .page-shell { width:100%; max-width:1100px; margin:0 auto; padding:26px 18px 40px; }
+        .hero {
+            background: linear-gradient(120deg, rgba(30,58,138,0.14), rgba(37,99,235,0.16));
+            border: 1px solid #dbeafe;
+            border-radius: 18px;
+            padding: 18px 20px;
+            box-shadow: 0 12px 24px rgba(30,58,138,0.12);
+            margin-bottom: 20px;
+        }
+        .hero h1 { margin: 0 0 6px 0; color: #0f172a; }
+        .hero p { margin: 0; color: #475569; }
+        .card {
+            background:#fff;
+            border:1px solid #e2e8f0;
+            border-radius:14px;
+            padding:18px;
+            box-shadow:0 16px 36px rgba(15,23,42,0.12);
+            margin-bottom:18px;
+            max-width:1040px;
+            margin-left:auto;
+            margin-right:auto;
+            width:100%;
+        }
+        .form-row { display:flex; flex-direction:column; gap:10px; margin-bottom:12px; }
+        @media (min-width: 640px){
+            .form-row.inline { flex-direction:row; align-items:flex-start; }
+            .form-row.inline > div { flex:1; }
+        }
+        .field-label { display:block; font-weight:700; color:#0f172a; margin-bottom:6px; }
+        .time-input, select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #111827;
+            background: #fff;
+            box-sizing: border-box;
+        }
+        .messages { margin-bottom:12px; }
+        .message { padding:10px; border-radius:10px; margin-bottom:8px; }
+        .message.error { background:#fef2f2; border:1px solid #fecdd3; color:#991b1b; }
+        .message.success { background:#ecfdf3; border:1px solid #bbf7d0; color:#166534; }
+        .table-wrapper{ width:100%; max-width:960px; margin:0 auto; overflow-x:auto; }
+        table{ width:100%; border-collapse:collapse; margin-top:12px; }
+        th, td{ border:1px solid #d1d5db; padding:10px; text-align:left; }
+        th{ background-color:#f8fafc; }
+        .hidden{ display:none !important; }
+        .actions { margin-top:18px; display:flex; justify-content:center; gap:12px; flex-wrap:wrap; }
+        .btn.primary { background: linear-gradient(120deg, #1e3a8a, #2563eb); }
+        .footer-link { margin-top:18px; text-align:center; }
+    </style>
+</head>
+<body>
+    <div class="page-shell">
+        <section class="hero">
+            <h1>Generar Reportes de Eventos de Acceso</h1>
+            <p>Filtra los eventos por hora o por estado de acceso para obtener la tabla de resultados.</p>
+        </section>
+
+        <div class="card">
+            {% if message %}
+                <div class="messages"><div class="message error">{{ message }}</div></div>
+            {% endif %}
+
+            <form method="post" id="report-form">
+                {% csrf_token %}
+                <div class="form-row">
+                    <label class="field-label" for="filter_by">Filtrar por</label>
+                    <select name="filter_by" id="filter_by" required>
+                        <option value="">Seleccione...</option>
+                        <option value="HORA" {% if selected_filter == 'HORA' %}selected{% endif %}>Hora</option>
+                        <option value="ESTADO" {% if selected_filter == 'ESTADO' %}selected{% endif %}>Estado de acceso</option>
+                    </select>
+                </div>
+
+                <div id="hora-fields" class="form-row inline hidden">
+                    <div>
+                        <label class="field-label" for="hour_from">Hora inicio</label>
+                        <input class="time-input" type="time" name="hour_from" id="hour_from" value="{{ request.POST.hour_from }}">
+                    </div>
+                    <div>
+                        <label class="field-label" for="hour_to">Hora fin</label>
+                        <input class="time-input" type="time" name="hour_to" id="hour_to" value="{{ request.POST.hour_to }}">
+                    </div>
+                </div>
+
+                <div id="estado-fields" class="form-row hidden">
+                    <label class="field-label" for="estado_acceso">Estado de acceso</label>
+                    <select name="estado_acceso" id="estado_acceso">
+                        <option value="">Seleccione...</option>
+                        <option value="ENTRY" {% if selected_estado == 'ENTRY' %}selected{% endif %}>Entrada</option>
+                        <option value="EXIT" {% if selected_estado == 'EXIT' %}selected{% endif %}>Salida</option>
+                    </select>
+                </div>
+
+                <div class="actions">
+                    <button class="btn primary" type="submit">Consultar Reporte</button>
+                    <a class="cancel-button" href="{% url 'dashboard' %}">Cancelar</a>
+                </div>
+            </form>
+        </div>
+
+        {% if database %}
+        <div class="card">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha/Hora</th>
+                            <th>Punto de acceso</th>
+                            <th>Credencial</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for event in database %}
+                        <tr>
+                            <td>{{ event.timestamp }}</td>
+                            <td>{{ event.access_point.name }}</td>
+                            <td>{% if event.credential %}{{ event.credential.credential_code }}{% else %}N/A{% endif %}</td>
+                            <td>{{ event.get_status_display }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="footer-link" style="display:none;">
+            <a class="cancel-button" href="{% url 'dashboard' %}">Cancelar</a>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const filterSelect = document.getElementById('filter_by');
+            const horaFields = document.getElementById('hora-fields');
+            const estadoFields = document.getElementById('estado-fields');
+
+            function toggleFields() {
+                const val = filterSelect.value;
+                horaFields.classList.add('hidden');
+                estadoFields.classList.add('hidden');
+                if (val === 'HORA') {
+                    horaFields.classList.remove('hidden');
+                } else if (val === 'ESTADO') {
+                    estadoFields.classList.remove('hidden');
+                }
+            }
+
+            filterSelect.addEventListener('change', toggleFields);
+            toggleFields(); // inicializar segun seleccion previa
+        })();
+    </script>
+</body>
+</html>

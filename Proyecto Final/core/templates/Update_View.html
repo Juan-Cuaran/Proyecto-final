@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Actualizar Usuario</title>
+</head>
+<body>
+    <h1>Buscar usuario para actualizar</h1>
+
+    {% if message %}
+        <p style="color: red">{{ message }}</p>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <label>
+            <input type="radio" name="search_by" value="id" checked> Buscar por ID
+        </label>
+        <label>
+            <input type="radio" name="search_by" value="name"> Buscar por Nombre
+        </label>
+        <br>
+        <input type="text" name="q" placeholder="Escriba ID o Nombre" required>
+        <button type="submit">Buscar</button>
+    </form>
+
+    <!-- Resultados de búsqueda -->
+    {% if matches %}
+        <h2>Coincidencias</h2>
+        <ul>
+            {% for u in matches %}
+                <li>
+                    ID: {{ u.id }} - Nombre: {{ u.Name }} - UsersID: {{ u.UsersID }}
+                    <a href="?id={{ u.id }}">Editar</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if form %}
+        <h2>Editar usuario: {{ object.Name }}</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Guardar</button>
+        </form>
+    {% endif %}
+
+    <p><a href="/">Volver</a></p>
+</body>
+</html> 
