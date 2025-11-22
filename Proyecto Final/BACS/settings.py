@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'credentials',
     'visitors',
     'accesscontrol',
+    'reports',
 ]
 
 MIDDLEWARE = [

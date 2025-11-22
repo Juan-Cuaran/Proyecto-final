@@ -13,12 +13,17 @@
         .message { padding: 8px; border-radius: 4px; margin-bottom: 6px; }
         .message.error { background: #ffdddd; border: 1px solid #ffb3b3; }
         .message.success { background: #ddffdd; border: 1px solid #b3ffb3; }
+        .footer-actions { margin-top: 16px; text-align: center; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1>Lista de Eventos de Acceso</h1>
+        </div>
+
+        <div style="margin-bottom:12px;">
+            <a class="btn" href="{% url 'create_reports' %}">Generar reportes</a>
         </div>
 
         {% if messages %}
@@ -61,6 +66,9 @@
                 {% endfor %}
             </tbody>
         </table>
+        <div class="footer-actions">
+            <a class="cancel-button" href="{% url 'dashboard' %}">Cancelar</a>
+        </div>
     </div>
 </body>
 </html>

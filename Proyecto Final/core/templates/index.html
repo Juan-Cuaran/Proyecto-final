@@ -16,14 +16,11 @@
 
         <section class="card login-card">
             {% if user_name %}
-                <div class="card-header">
-                    <div class="badge-icon">✅</div>
-                    <div>
-                        <p class="overline">Usuario activo</p>
-                        <h2>Bienvenido, {{ user_name }}</h2>
-                        <span class="role-chip">{{ user_role }}</span>
-                        <p class="hint-text">Accede al panel principal o cierra sesi&oacute;n de forma segura.</p>
-                    </div>
+                <div class="card-header centered">
+                    <p class="overline">Usuario activo</p>
+                    <h2>Bienvenido, {{ user_name }}</h2>
+                    <span class="role-chip">{{ user_role }}</span>
+                    <p class="hint-text">Accede al panel principal o cierra sesi&oacute;n de forma segura.</p>
                 </div>
 
                 <div class="action-row">
@@ -35,20 +32,16 @@
                     </form>
                 </div>
             {% else %}
-                <div class="card-header">
-                    <div class="badge-icon"></div>
-                    <div>
-                        <p class="overline">Acceso seguro</p>
-                        <h2>Inicia sesi&oacute;n</h2>
-                        <p class="hint-text">Ingresa tu ID y contrase&ntilde;a institucional.</p>
-                    </div>
+                <div class="card-header centered">
+                    <h2>Inicia sesi&oacute;n</h2>
+                    <p class="hint-text">Ingresa tu ID y contrase&ntilde;a .</p>
                 </div>
 
                 {% if login_error %}
                     <p class="alert">{{ login_error }}</p>
                 {% endif %}
 
-                <form method="post" class="stacked-form">
+                <form method="post" class="stacked-form centered-form">
                     {% csrf_token %}
                     <input type="hidden" name="action" value="login">
 
@@ -57,7 +50,7 @@
                     </label>
 
                     <label>Contrase&ntilde;a
-                        <input type="password" name="Password" required placeholder="••••••••">
+                        <input type="password" name="Password" required placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull; ">
                     </label>
 
                     <button type="submit">Iniciar sesi&oacute;n</button>

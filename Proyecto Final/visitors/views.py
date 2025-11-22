@@ -1,7 +1,9 @@
-from django.shortcuts import render,get_list_or_404, redirect
+from django.shortcuts import render, get_list_or_404, redirect
 from django.urls import reverse
+from django.db.models import OuterRef, Subquery
 from .models import Visitor
 from .form import VisitorForm
+from credentials.models import CredentialsModel
 
 
 # Create your views here.
@@ -23,7 +25,11 @@ def list_visitor(request):
 
     selected_id = request.GET.get('id')
     if selected_id:
-        visitors = Visitor.objects.filter(id_visitor__exact=selected_id)
+        latest_cred = CredentialsModel.objects.filter(visitor=OuterRef('pk')).order_by('-issued_at')
+        visitors = Visitor.objects.filter(id_visitor__exact=selected_id).annotate(
+            credential_code=Subquery(latest_cred.values('credential_code')[:1]),
+            credential_active=Subquery(latest_cred.values('active')[:1]),
+        )
         if not visitors.exists():
             message = 'No se encontraron visitantes con ese ID.'
         context['visitors'] = visitors
@@ -36,10 +42,17 @@ def list_visitor(request):
         if not q:
             message = 'Introduzca un término de búsqueda.'
         else:
+            base_query = Visitor.objects.all()
             if search_by == 'id':
-                visitors = Visitor.objects.filter(id_visitor__exact=q)
+                base_query = base_query.filter(id_visitor__exact=q)
             else:
-                visitors = Visitor.objects.filter(name__icontains=q)
+                base_query = base_query.filter(name__icontains=q)
+
+            latest_cred = CredentialsModel.objects.filter(visitor=OuterRef('pk')).order_by('-issued_at')
+            visitors = base_query.annotate(
+                credential_code=Subquery(latest_cred.values('credential_code')[:1]),
+                credential_active=Subquery(latest_cred.values('active')[:1]),
+            )
             if not visitors.exists():
                 message = 'No se encontraron coincidencias.'
 

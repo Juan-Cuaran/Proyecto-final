@@ -210,7 +210,8 @@ select:focus {
 /* Landing page */
 .landing {
     width: 100%;
-    max-width: 520px;
+    max-width: 480px;
+    margin: 0 auto;
 }
 
 .hero {
@@ -253,8 +254,10 @@ select:focus {
     background: #fff;
     border: 1px solid #e2e8f0;
     border-radius: 14px;
-    padding: 22px 22px 24px 22px;
+    padding: 22px 20px 24px 20px;
     box-shadow: 0 12px 30px rgba(30, 58, 138, 0.08);
+    max-width: 500px;
+    margin: 0 auto;
 }
 
 .card-header {
@@ -263,6 +266,14 @@ select:focus {
     gap: 12px;
     align-items: center;
     margin-bottom: 8px;
+}
+
+.card-header.centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
 }
 
 .badge-icon {
@@ -304,6 +315,8 @@ select:focus {
     margin: 12px 0;
     color: #1f2937;
     font-weight: 600;
+    width: 100%;
+    text-align: left;
 }
 
 .stacked-form input[type="text"],
@@ -315,7 +328,36 @@ select:focus {
 
 .stacked-form button {
     width: 100%;
-    margin-top: 12px;
+    margin-top: 14px;
+}
+
+.centered-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.login-card form {
+    padding: 0;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 420px;
+}
+
+.centered-form label,
+.login-card form label {
+    width: 100%;
+    max-width: 420px;
+    text-align: left;
+    align-self: flex-start;
+}
+
+.centered-form button {
+    max-width: 420px;
 }
 
 .action-row {
