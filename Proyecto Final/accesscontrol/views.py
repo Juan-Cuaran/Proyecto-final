@@ -69,13 +69,6 @@ def create_access_event(request):
     return render(request, 'accesscontrol/create_access_event.html', context)
 
 
-def list_access_events(request):
-    context = {
-        'database': AccessEventModels.objects.select_related('credential', 'access_point').all().order_by('-timestamp')
-    }
-    return render(request, 'accesscontrol/list_access_events.html', context)
-
-
 def create_reports(request):
     context = {
         'filtros_reportes': FILTROS_REPORTES,
