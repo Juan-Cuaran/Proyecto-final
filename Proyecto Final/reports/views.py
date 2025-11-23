@@ -14,7 +14,11 @@ def report_detail(request, pk):
         Report.objects.prefetch_related(
             Prefetch(
                 'events',
-                queryset=AccessEventModels.objects.select_related('credential', 'access_point').order_by('-timestamp')
+                queryset=AccessEventModels.objects.select_related(
+                    'credential',
+                    'credential__visitor',
+                    'access_point'
+                ).order_by('-timestamp')
             )
         ),
         pk=pk

@@ -65,6 +65,8 @@
                             <th>Fecha/Hora</th>
                             <th>Punto de acceso</th>
                             <th>Credencial</th>
+                            <th>Visitante</th>
+                            <th>Tipo de visitante</th>
                             <th>Estado</th>
                         </tr>
                     </thead>
@@ -75,11 +77,25 @@
                             <td>{{ event.timestamp }}</td>
                             <td>{{ event.access_point.name }}</td>
                             <td>{% if event.credential %}{{ event.credential.credential_code }}{% else %}N/A{% endif %}</td>
+                            <td>
+                                {% if event.credential and event.credential.visitor %}
+                                    {{ event.credential.visitor.name }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if event.credential and event.credential.visitor %}
+                                    {{ event.credential.visitor.get_visitor_type_display }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
                             <td>{{ event.get_status_display }}</td>
                         </tr>
                         {% endfor %}
                         {% else %}
-                        <tr><td colspan="4">No hay eventos en este reporte.</td></tr>
+                        <tr><td colspan="6">No hay eventos en este reporte.</td></tr>
                         {% endif %}
                     </tbody>
                 </table>
